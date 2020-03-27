@@ -1,0 +1,27 @@
+{
+  "name": "ifeira-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "jest": "^25.2.3",
+    "remover-acentos": "0.0.6"
+  },
+  "devDependencies": {
+    "jasmine": "^3.5.0"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LucasHenriqueOliveira/ifeira-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LucasHenriqueOliveira/ifeira-api/issues"
+  },
+  "homepage": "https://github.com/LucasHenriqueOliveira/ifeira-api#readme"
+}
