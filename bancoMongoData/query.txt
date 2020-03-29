@@ -1,0 +1,25 @@
+#listar Uf/Estado
+db.getCollection('localidades').aggregate( 
+            [
+                {"$group": { "_id": { uf: "$uf", nome_estado: "$nome_estado" } } }
+            ]
+        );
+
+
+#listar Municipios do Estado
+
+db.getCollection('localidades').aggregate( 
+            [
+                {$match:{"nome_estado" : 'minas gerais'}},
+                {$group: { "_id": { uf: "$uf", nome_estado: "$nome_estado", nome_municipio : "$nome_municipio" } } }
+            ]
+        );
+
+
+#listar Bairros do municipio selecionado
+db.getCollection('localidades').aggregate( 
+            [
+                {$match:{"nome_estado" : 'minas gerais', "nome_municipio": "contagem"}},
+                {$group: { "_id": { uf: "$uf", nome_estado: "$nome_estado", nome_municipio : "$nome_municipio", bairros:"$bairros" } } }
+            ]
+        );
