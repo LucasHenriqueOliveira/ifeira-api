@@ -1,5 +1,5 @@
-const FeiranteFactory = require('../../feirante/FeiranteFactory');
-const Feirante = require('../../feirante/Feirante');
+const FeiranteFactory = require('../../../src/feirante/FeiranteFactory');
+const Feirante = require('../../../src/feirante/Feirante');
 
 describe('Feirante', () => {
 

@@ -2,17 +2,8 @@
   "name": "ifeira-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "dependencies": {
-    "jest": "^25.2.3",
-    "remover-acentos": "0.0.6"
-  },
-  "devDependencies": {
-    "jasmine": "^3.5.0"
-  },
-  "scripts": {
-    "test": "jest"
-  },
+  "main": "src/server.js",
+  "homepage": "https://github.com/LucasHenriqueOliveira/ifeira-api#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LucasHenriqueOliveira/ifeira-api.git"
@@ -23,5 +14,29 @@
   "bugs": {
     "url": "https://github.com/LucasHenriqueOliveira/ifeira-api/issues"
   },
-  "homepage": "https://github.com/LucasHenriqueOliveira/ifeira-api#readme"
+  "scripts": {
+    "production-up": "docker-compose -p afonso-production up --build -d",
+    "production-ps": "docker-compose -p afonso-production ps",
+    "production-down": "docker-compose -p afonso-production down",
+    "dev-up": "docker-compose -p afonso-dev -f docker-compose.yml -f docker-compose.dev.yml up --build -d",
+    "dev-ps": "docker-compose -p afonso-dev -f docker-compose.yml -f docker-compose.dev.yml ps",
+    "dev-logs": "docker-compose -p afonso-dev -f docker-compose.yml -f docker-compose.dev.yml logs -f",
+    "dev-down": "docker-compose -p afonso-dev -f docker-compose.yml -f docker-compose.dev.yml down",
+    "start": "node src/server.js",
+    "dev": "nodemon --exec node --inspect=0.0.0.0 src/server.js --ignore __tests__",
+    "pretest": "NODE_ENV=test yarn sequelize db:migrate",
+    "test": "NODE_ENV=test jest",
+    "posttest": "NODE_ENV=test yarn sequelize db:migrate:undo:all"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jest": "^25.2.3",
+    "jsonwebtoken": "^8.5.1",
+    "remover-acentos": "0.0.6"
+  },
+  "devDependencies": {
+    "jasmine": "^3.5.0",
+    "supertest": "^4.0.2"
+  }
 }
