@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+    pgadmin:
+        image: dpage/pgadmin4
+        environment: 
+            PGADMIN_DEFAULT_EMAIL: docker
+            PGADMIN_DEFAULT_PASSWORD: docker
+        ports: 
+            - 80:80
+        depends_on: 
+            - db
+    web:
+        build:
+            dockerfile: ./Dockerfile-tools
+        environment: 
+                PORT: 3000
+                HOST: '0.0.0.0'
+        ports:
+            - 9229:9229
+        volumes: 
+            - .:/src
+            - nodemodules:/src/node_modules
+        command: npm run dev
+
+volumes:
+    nodemodules: {}

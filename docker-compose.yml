@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres:12.2
+    ports:
+        - 5432:5432
+    environment: 
+        POSTGRES_USER: docker
+        POSTGRES_PASSWORD: docker
+
+  web:
+    build:
+        context: ./
+        dockerfile: ./Dockerfile-production
+        args:
+          http_proxy: ${npm_config_proxy}
+    environment: 
+      PORT: 3000
+      HOST: '0.0.0.0'
+    ports:
+      - 3000:3000
+    depends_on: 
+      - db
+
+volumes:
+  nodemodules: {}
+    
