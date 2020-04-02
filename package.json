@@ -15,18 +15,17 @@
     "url": "https://github.com/LucasHenriqueOliveira/ifeira-api/issues"
   },
   "scripts": {
-    "production-up": "docker-compose -p afonso-production up --build -d",
-    "production-ps": "docker-compose -p afonso-production ps",
-    "production-down": "docker-compose -p afonso-production down",
-    "dev-up": "docker-compose -p afonso-dev -f docker-compose.yml -f docker-compose.dev.yml up --build -d",
-    "dev-ps": "docker-compose -p afonso-dev -f docker-compose.yml -f docker-compose.dev.yml ps",
-    "dev-logs": "docker-compose -p afonso-dev -f docker-compose.yml -f docker-compose.dev.yml logs -f",
-    "dev-down": "docker-compose -p afonso-dev -f docker-compose.yml -f docker-compose.dev.yml down",
+    "docker-test-run": "docker-compose -p ${npm_package_name}-test -f docker-compose.yml -f docker-compose.test.yml up --build",
+    "docker-dev-up": "docker-compose -p ${npm_package_name}-dev -f docker-compose.yml -f docker-compose.dev.yml up --build -d",
+    "docker-dev-ps": "docker-compose -p ${npm_package_name}-dev -f docker-compose.yml -f docker-compose.dev.yml ps",
+    "docker-dev-logs": "docker-compose -p ${npm_package_name}-dev -f docker-compose.yml -f docker-compose.dev.yml logs -f",
+    "docker-dev-down": "docker-compose -p ${npm_package_name}-dev -f docker-compose.yml -f docker-compose.dev.yml down",
+    "docker-production-up": "docker-compose -p ${npm_package_name}-production -f docker-compose.yml -f docker-compose.production.yml up --build -d",
+    "docker-production-ps": "docker-compose -p ${npm_package_name}-production -f docker-compose.yml -f docker-compose.production.yml ps",
+    "docker-production-down": "docker-compose -p ${npm_package_name}-production -f docker-compose.yml -f docker-compose.production.yml down",
     "start": "node src/server.js",
     "dev": "nodemon --exec node --inspect=0.0.0.0 src/server.js --ignore __tests__",
-    "pretest": "NODE_ENV=test yarn sequelize db:migrate",
-    "test": "NODE_ENV=test jest",
-    "posttest": "NODE_ENV=test yarn sequelize db:migrate:undo:all"
+    "test": "NODE_ENV=test jest"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
@@ -36,6 +35,8 @@
     "remover-acentos": "0.0.6"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/preset-env": "^7.9.0",
     "jasmine": "^3.5.0",
     "supertest": "^4.0.2"
   }

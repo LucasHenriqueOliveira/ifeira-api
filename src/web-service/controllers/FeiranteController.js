@@ -1,4 +1,4 @@
-const FeiranteFactory = require('../../feirante/FeiranteFactory');
+const FeiranteFactory = require('../feirante/FeiranteFactory');
 
 class SessionController {
 
@@ -24,6 +24,10 @@ class SessionController {
 
     async listarPorBairro(req, res){
 
+    }
+
+    async dadosPainel(req, res){
+        return res.status(200).json({message: "a implementar"});
     }
 
 

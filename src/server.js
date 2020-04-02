@@ -1,4 +1,4 @@
-const IFeiraWS = require('./IFeiraWS');
+const IFeiraWS = require('./web-service/IFeiraWS');
 
 const porta = process.env.PORT || 3000;
 

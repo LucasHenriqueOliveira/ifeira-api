@@ -1,11 +1,12 @@
+const express = require('express');
+const authMiddleware = require('./middleware/auth');
+const SessionController = require('./controllers/SessionController');
+const FeiranteController = require('./controllers/FeiranteController');
+const RegioesController = require('./controllers/RegioesController');
+
 require('dotenv').config({
     path: process.env.NODE_ENV === "test" ? ".env.test" : ".env"
 });
-const express = require('express');
-const authMiddleware = require('./app/middleware/auth');
-const SessionController = require('./app/controllers/SessionController');
-const FeiranteController = require('./app/controllers/FeiranteController');
-const RegioesController = require('./app/controllers/RegioesController');
 
 class IFeiraWS {
 
@@ -37,17 +38,19 @@ class IFeiraWS {
         const routes = express.Router();
         this.#express.use(routes);
         
+        routes.get('/feirantes/bairro/idBairro', FeiranteController.listarPorBairro);
+        routes.get('/feirante/id', FeiranteController.ler);
+        routes.put('/municipios/idEstado', RegioesController.listarMunicipiosPorEstado);
+        routes.put('/bairros/idMunicipio', RegioesController.listarBairrosPorMunicipio);
+        
         routes.post('/sessions', SessionController.store);
         
         // middleware aplicado para as rotas abaixo
         routes.use(authMiddleware);
         
         routes.post('/feirante', FeiranteController.gravar);
-        routes.get('/feirante/id', FeiranteController.ler);
         routes.put('/feirante/id', FeiranteController.atualizar);
-        routes.get('/feirantes/bairro/idBairro', FeiranteController.listarPorBairro);
-        routes.put('/municipios/idEstado', RegioesController.listarMunicipiosPorEstado);
-        routes.put('/bairros/idMunicipio', RegioesController.listarBairrosPorMunicipio);
+        routes.get('/painel/', FeiranteController.dadosPainel);
         
     }
 

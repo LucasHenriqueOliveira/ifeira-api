@@ -1,8 +1,8 @@
-const Telefone = require('../../../src/feirante/telefone/Telefone');
-const TelefoneFactory = require('../../../src/feirante/telefone/TelefoneFactory');
-const TelefoneFixo = require('../../../src/feirante/telefone/TelefoneFixo');
-const TelefoneCelular = require('../../../src/feirante/telefone/TelefoneCelular');
-const ListaTelefonesCelulares = require('../../../src/feirante/telefone/ListaTelefonesCelulares');
+const Telefone = require('../../../src/web-service/feirante/telefone/Telefone');
+const TelefoneFactory = require('../../../src/web-service/feirante/telefone/TelefoneFactory');
+const TelefoneFixo = require('../../../src/web-service/feirante/telefone/TelefoneFixo');
+const TelefoneCelular = require('../../../src/web-service/feirante/telefone/TelefoneCelular');
+const ListaTelefonesCelulares = require('../../../src/web-service/feirante/telefone/ListaTelefonesCelulares');
 
 describe('Telefone', () => {
 

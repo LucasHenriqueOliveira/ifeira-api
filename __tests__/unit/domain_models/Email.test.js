@@ -1,4 +1,4 @@
-const Email = require('../../../src/feirante/Email');
+const Email = require('../../../src/web-service/feirante/Email');
 
 describe('Email', () => {
 
