@@ -1,3 +1,28 @@
+#criar indice para pesquisa em GEolocaliacao
+db.getCollection('localidades').createIndex({
+        "localizacao":"2dsphere"
+})
+
+
+db.getCollection('localidades').aggregate([
+{
+    
+        $geoNear : {
+                near : {
+                        coordinates: [-11.9283,-61.9953],
+                        type: 'Point'
+                    },
+                    distanceField: "distancia.calculada",
+                    spherical:true
+            }
+}
+])
+
+
+
+
+
+
 #listar Uf/Estado
 db.getCollection('localidades').aggregate( 
             [
