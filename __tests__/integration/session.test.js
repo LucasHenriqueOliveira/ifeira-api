@@ -35,7 +35,7 @@ describe('Session', () => {
         expect(response.status).toBe(401);
     });
 
-    xit('deve acessar rotas privadas quando autenticado', async() => {
+    it('deve acessar rotas privadas quando autenticado', async() => {
         const resAutenticacao = await request(iFeira.express)
             .post("/sessions")
             .send({
@@ -45,7 +45,7 @@ describe('Session', () => {
 
         const resRotaPrivada = await request(iFeira.express)
             .get("/painel")
-            .set('Authorization', `Bearer ${resAutenticacao.token}`);
+            .set('Authorization', `Bearer ${resAutenticacao.body.token}`);
 
         expect(resRotaPrivada.status).toBe(200);
     });

@@ -3,10 +3,17 @@ const request = require('supertest');
 const IFeiraWS = require('../../src/web-service/IFeiraWS');
 const iFeira = new IFeiraWS;
 
-xdescribe('Rota feirante', () => {
+describe('Rota feirante', () => {
 
     it('deve gravar um feirante na rota post', async () => {
-        
+
+        const resAutenticacao = await request(iFeira.express)
+            .post("/sessions")
+            .send({
+                usuario: "teste",
+                senha: "teste"
+            });
+
         const feirante = {
             "nomeDaBarraca": "Barraca Brás",
             "email": "barraca.bras@ig.com.br",
@@ -34,10 +41,11 @@ xdescribe('Rota feirante', () => {
 
         const response = await request(iFeira.express)
             .post('/feirante')
-            .send(feirante);
+            .send(feirante)
+            .set('Authorization', `Bearer ${resAutenticacao.body.token}`);
 
         expect(response.status).toBe(200);
-        expect(JSON.stringify(JSON.parse(response.body))).toBe(JSON.stringify(feirante));         
+        
     });
 
 });
