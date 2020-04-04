@@ -1,6 +1,6 @@
 const { MongoClient } = require("mongodb");
 const uri =
-  "mongodb+srv://ifeira:LP979Riar3B6HTKS@cluster0-uybm2.gcp.mongodb.net/test?retryWrites=true&w=majority&useNewUrlParser=true&useUnifiedTopology=true";
+  "mongodb+srv://ifeira:LP979Riar3B6HTKS@cluster0-uybm2.gcp.mongodb.net/test?retryWrites=true&w=majority";
 
 const client = new MongoClient(uri);
 const dbName = "ifeira";
@@ -13,15 +13,17 @@ class RegioesController {
 
       // Use the collection "people"
       const collection = db.collection("localidades");
-      const p = collection.aggregate([
-        { $group: { _id: { uf: "$uf", nome_estado: "$nome_estado" } } },
-      ]);
-
-      console.log(p);
+      const p = collection.find({}).toArray(function (err, result) {
+        if (err) {
+          console.log(err);
+        }
+        if (JSON.stringify(result).length > 0) {
+          console.log(JSON.stringify(result));
+          res.json(result);
+        }
+      });
     } catch (err) {
       console.log(err.stack);
-    } finally {
-      await client.close();
     }
   }
 
