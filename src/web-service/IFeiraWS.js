@@ -45,11 +45,13 @@ class IFeiraWS {
     routes.get("/feirante/id", FeiranteController.ler);
 
     routes.get("/estados", RegioesController.listarEstados);
+    routes.get("/maisProximos", RegioesController.feiranteMaisProximo);
 
     routes.put(
       "/municipios/idEstado",
       RegioesController.listarMunicipiosPorEstado
     );
+
     routes.put(
       "/bairros/idMunicipio",
       RegioesController.listarBairrosPorMunicipio

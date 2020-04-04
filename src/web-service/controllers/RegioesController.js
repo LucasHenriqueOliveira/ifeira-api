@@ -13,49 +13,118 @@ class RegioesController {
 
       // Use the collection "people"
       const collection = db.collection("localidades");
-      const p = collection.find({}).toArray(function (err, result) {
-        if (err) {
-          console.log(err);
-        }
-        if (JSON.stringify(result).length > 0) {
-          console.log(JSON.stringify(result));
+      const p = collection
+        .aggregate([
+          { $group: { _id: { uf: "$uf", nome_estado: "$nome_estado" } } },
+        ])
+        .toArray(function (err, result) {
+          if (err) {
+            console.log(err);
+          }
           res.json(result);
-        }
-      });
+        });
     } catch (err) {
       console.log(err.stack);
     }
   }
 
   async listarMunicipiosPorEstado(req, res) {
-    await db.getCollection("localidades").aggregate([
-      { $match: { nome_estado: "minas gerais" } },
-      {
-        $group: {
-          _id: {
-            uf: "$uf",
-            nome_estado: "$nome_estado",
-            nome_municipio: "$nome_municipio",
+    try {
+      await client.connect();
+      const db = client.db(dbName);
+
+      // Use the collection "people"
+      const collection = db.collection("localidades");
+      const p = collection
+        .aggregate([
+          { $match: { nome_estado: "minas gerais" } },
+          {
+            $group: {
+              _id: {
+                uf: "$uf",
+                nome_estado: "$nome_estado",
+                nome_municipio: "$nome_municipio",
+              },
+            },
           },
-        },
-      },
-    ]);
+        ])
+        .toArray(function (err, result) {
+          if (err) {
+            console.log(err);
+          }
+          res.json(result);
+        });
+    } catch (err) {
+      console.log(err.stack);
+    }
   }
 
   async listarBairrosPorMunicipio(req, res) {
-    await db.getCollection("localidades").aggregate([
-      { $match: { nome_estado: "minas gerais", nome_municipio: "contagem" } },
-      {
-        $group: {
-          _id: {
-            uf: "$uf",
-            nome_estado: "$nome_estado",
-            nome_municipio: "$nome_municipio",
-            bairros: "$bairros",
+    try {
+      await client.connect();
+      const db = client.db(dbName);
+
+      // Use the collection "people"
+      const collection = db.collection("localidades");
+      const p = collection
+        .aggregate([
+          {
+            $match: { nome_estado: "minas gerais", nome_municipio: "contagem" },
           },
-        },
-      },
-    ]);
+          {
+            $group: {
+              _id: {
+                uf: "$uf",
+                nome_estado: "$nome_estado",
+                nome_municipio: "$nome_municipio",
+                bairros: "$bairros",
+              },
+            },
+          },
+        ])
+        .toArray(function (err, result) {
+          if (err) {
+            console.log(err);
+          }
+          res.json(result);
+        });
+    } catch (err) {
+      console.log(err.stack);
+    }
+  }
+
+  async feiranteMaisProximo(req, res) {
+    try {
+      await client.connect();
+      const db = client.db(dbName);
+
+      // Use the collection "people"
+      const collection = db.collection("localidades");
+      const p = collection
+        .aggregate([
+          {
+            $geoNear: {
+              near: {
+                coordinates: [-23.5640265, -46.6527128],
+                type: "Point",
+              },
+              distanceField: "distancia.calculada",
+              spherical: true,
+            },
+          },
+          { $skip: 1 },
+          { $limit: 2 },
+        ])
+
+        .toArray(function (err, result) {
+          if (err) {
+            console.log(err);
+          }
+          res.json(result);
+        });
+    } catch (err) {
+      console.log(err.stack);
+    }
   }
 }
 
