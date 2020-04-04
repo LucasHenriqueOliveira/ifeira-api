@@ -4,6 +4,27 @@ db.getCollection('localidades').createIndex({
 })
 
 
+#mais proximos:
+
+    db.getCollection('localidades').aggregate([
+    {
+        
+        $geoNear : {
+            
+            near: {
+                coordinates: [-23.5640265,-46.6527128],
+                type: "Point" 
+                },
+                distanceField: "distancia.calculada",
+                spherical: true
+            }
+           
+        
+    },
+    {$skip: 1},
+    {$limit:2}
+])
+
 db.getCollection('localidades').aggregate([
 {
     
