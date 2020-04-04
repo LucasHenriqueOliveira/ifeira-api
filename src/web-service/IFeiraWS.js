@@ -4,13 +4,6 @@ const SessionController = require("./controllers/SessionController");
 const FeiranteController = require("./controllers/FeiranteController");
 const RegioesController = require("./controllers/RegioesController");
 
-const { MongoClient } = require("mongodb");
-const uri =
-  "mongodb+srv://ifeira:LP979Riar3B6HTKS@cluster0-uybm2.gcp.mongodb.net/test?retryWrites=true&w=majority";
-
-const client = new MongoClient(url);
-const dbName = "ifeira";
-
 require("dotenv").config({
   path: process.env.NODE_ENV === "test" ? ".env.test" : ".env",
 });
