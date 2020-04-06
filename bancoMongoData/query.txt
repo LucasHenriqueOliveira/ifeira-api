@@ -3,6 +3,9 @@ db.getCollection('localidades').createIndex({
         "localizacao":"2dsphere"
 })
 
+#criar indice para unico
+db.getCollection('feirantes').createIndex( { "email": 1 }, { unique: true } )
+
 
 #mais proximos:
 
