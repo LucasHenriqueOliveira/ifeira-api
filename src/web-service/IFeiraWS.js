@@ -37,6 +37,7 @@ class IFeiraWS {
     const routes = express.Router();
     this.#express.use(routes);
 
+    routes.get("/feirantes/bairro/:idBairro", FeiranteController.listarPorBairro);
     routes.get("/regioes/municipios/:uf", RegioesController.listarMunicipiosPorEstado);
     routes.get("/regioes/bairros/:idMunicipio", RegioesController.listarBairrosPorMunicipio);
     routes.post("/sessions", SessionController.store);

@@ -1,3 +1,10 @@
+const { MongoClient } = require("mongodb");
+const uri =
+  "mongodb+srv://ifeira:LP979Riar3B6HTKS@cluster0-uybm2.gcp.mongodb.net/test?retryWrites=true&w=majority";
+
+const client = new MongoClient(uri);
+const dbName = "ifeira";
+
 const FeiranteFactory = require("../feirante/FeiranteFactory");
 
 class SessionController {
@@ -74,14 +81,17 @@ class SessionController {
   }
 
   async listarPorBairro(req, res) {
+
+    const {idBairro} = req.params;
+    console.log({idBairro});
+
     try {
       await client.connect();
       const db = client.db(dbName);
 
-      // Use the collection "people"
       const collection = db.collection("feirantes");
       const p = collection
-        .find({ bairros: "ro:rondonia:altaflorestadoeste:centroareaflor" })
+        .find({ bairros: idBairro })
         .toArray(function (err, result) {
           if (err) {
             console.log(err);
