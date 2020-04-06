@@ -63,15 +63,19 @@ class RegioesController {
   }
 
   async listarBairrosPorMunicipio(req, res) {
+
+    const {idMunicipio} = req.params;
+
+
+    const {idMunicipio} = req.params;
+
     try {
-      await client.connect();
       const db = client.db(dbName);
 
-      // Use the collection "people"
       const collection = db.collection("bairros");
-      const p = collection
+          { $match: { municipio: idMunicipio } },
         .aggregate([
-          { $match: { municipio: "sp:saopaulo:saopaulo" } },
+          { $match: { municipio: idMunicipio } },
           {
             $lookup: {
               from: "municipios",

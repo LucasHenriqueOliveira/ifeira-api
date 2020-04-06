@@ -38,6 +38,7 @@ class IFeiraWS {
     this.#express.use(routes);
 
     routes.get("/regioes/municipios/:uf", RegioesController.listarMunicipiosPorEstado);
+    routes.get("/regioes/bairros/:idMunicipio", RegioesController.listarBairrosPorMunicipio);
     routes.post("/sessions", SessionController.store);
 
     // middleware aplicado para as rotas abaixo
