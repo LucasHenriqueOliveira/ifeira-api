@@ -37,26 +37,7 @@ class IFeiraWS {
     const routes = express.Router();
     this.#express.use(routes);
 
-    routes.get(
-      "/feirantes/bairro/idBairro",
-      FeiranteController.listarPorBairro
-    );
-
-    routes.get("/feirante/id", FeiranteController.ler);
-
-    routes.get("/estados", RegioesController.listarEstados);
-    routes.get("/maisProximos", RegioesController.feiranteMaisProximo);
-
-    routes.put(
-      "/municipios/idEstado",
-      RegioesController.listarMunicipiosPorEstado
-    );
-
-    routes.put(
-      "/bairros/idMunicipio",
-      RegioesController.listarBairrosPorMunicipio
-    );
-
+    routes.get("/regioes/municipios/:uf", RegioesController.listarMunicipiosPorEstado);
     routes.post("/sessions", SessionController.store);
 
     // middleware aplicado para as rotas abaixo

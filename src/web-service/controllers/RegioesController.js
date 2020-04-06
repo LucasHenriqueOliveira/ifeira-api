@@ -29,15 +29,18 @@ class RegioesController {
   }
 
   async listarMunicipiosPorEstado(req, res) {
+    
+    const {uf} = req.params;
+    console.log(uf);
+
     try {
       await client.connect();
       const db = client.db(dbName);
 
-      // Use the collection "people"
       const collection = db.collection("municipios");
       const p = collection
         .aggregate([
-          { $match: { nome_estado: "minas gerais" } },
+          { $match: { uf } },
           {
             $group: {
               _id: {
