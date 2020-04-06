@@ -12,7 +12,7 @@ class RegioesController {
       const db = client.db(dbName);
 
       // Use the collection "people"
-      const collection = db.collection("localidades");
+      const collection = db.collection("municipios");
       const p = collection
         .aggregate([
           { $group: { _id: { uf: "$uf", nome_estado: "$nome_estado" } } },
@@ -34,7 +34,7 @@ class RegioesController {
       const db = client.db(dbName);
 
       // Use the collection "people"
-      const collection = db.collection("localidades");
+      const collection = db.collection("municipios");
       const p = collection
         .aggregate([
           { $match: { nome_estado: "minas gerais" } },
@@ -65,57 +65,28 @@ class RegioesController {
       const db = client.db(dbName);
 
       // Use the collection "people"
-      const collection = db.collection("localidades");
+      const collection = db.collection("bairros");
       const p = collection
         .aggregate([
+          { $match: { municipio: "sp:saopaulo:saopaulo" } },
           {
-            $match: { nome_estado: "minas gerais", nome_municipio: "contagem" },
+            $lookup: {
+              from: "municipios",
+              localField: "municipio",
+              foreignField: "_id",
+              as: "dados_municipais",
+            },
           },
           {
-            $group: {
-              _id: {
-                uf: "$uf",
-                nome_estado: "$nome_estado",
-                nome_municipio: "$nome_municipio",
-                bairros: "$bairros",
-              },
+            $project: {
+              _id: 1,
+              nome: 1,
+              "dados_municipais.uf": 1,
+              "dados_municipais.nome_estado": 1,
+              "dados_municipais.nome_municipio": 1,
             },
           },
         ])
-        .toArray(function (err, result) {
-          if (err) {
-            console.log(err);
-          }
-          res.json(result);
-        });
-    } catch (err) {
-      console.log(err.stack);
-    }
-  }
-
-  async feiranteMaisProximo(req, res) {
-    try {
-      await client.connect();
-      const db = client.db(dbName);
-
-      // Use the collection "people"
-      const collection = db.collection("localidades");
-      const p = collection
-        .aggregate([
-          {
-            $geoNear: {
-              near: {
-                coordinates: [-23.5640265, -46.6527128],
-                type: "Point",
-              },
-              distanceField: "distancia.calculada",
-              spherical: true,
-            },
-          },
-          { $skip: 1 },
-          { $limit: 2 },
-        ])
-
         .toArray(function (err, result) {
           if (err) {
             console.log(err);
