@@ -8,19 +8,41 @@ const dbName = "ifeira";
 
 const FeiranteFactory = require("../feirante/FeiranteFactory");
 
-class SessionController {
-  async gravar(req, res) {
-    let feirante;
-    try {
-      feirante = FeiranteFactory.fromObject(req.body);
+class FeiranteController {
 
-      return res.json(feirante);
+  async gravar(req, res) {
+
+    // let feirante;
+
+    // try {
+    //   feirante = FeiranteFactory.fromObject(req.body);
+    // } catch (e) {
+    //   res
+    //     .status(500)
+    //     .json({ message: "Erro ao gerar um feirante"+e.message});
+    // }
+
+    try {
+      await client.connect();
+      const db = client.db(dbName);
+
+      const collection = db.collection("feirantes");
+      const retorno = await collection.insertOne(req.body);
+      console.log(retorno);
+
+      if(!retorno.insertedCount === 1){
+        throw new Error("Erro ao inserir o feirante");
+      }
+
+      res.status(200).send();
+
     } catch (e) {
       console.log(e);
       return res
         .status(500)
-        .json({ message: "Erro ao consultar o banco de dados" });
+        .json({ message: "Erro ao gravar no banco de dados" });
     }
+
   }
 
   async ler(req, res) {
@@ -164,4 +186,4 @@ class SessionController {
   }
 }
 
-module.exports = new SessionController();
+module.exports = new FeiranteController();
