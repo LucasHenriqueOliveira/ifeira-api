@@ -42,15 +42,17 @@ class IFeiraWS {
     routes.get("/regioes/estados", RegioesController.listarEstados);
     routes.get("/regioes/municipios/:uf", RegioesController.listarMunicipiosPorEstado);
     routes.get("/regioes/bairros/:idMunicipio", RegioesController.listarBairrosPorMunicipio);
+    //routes.get("/feirantes/maisProximos", RegioesController.feiranteMaisProximo);
     routes.post("/sessions", SessionController.store);
 
     // middleware aplicado para as rotas abaixo
     routes.use(authMiddleware);
 
     routes.post("/feirante", FeiranteController.gravar);
-    routes.put("/feirante/id", FeiranteController.atualizar);
+    //routes.put("/feirante/:id", FeiranteController.atualizar);
     routes.get("/painel/", FeiranteController.dadosPainel);
   };
+
 }
 
 module.exports = IFeiraWS;
