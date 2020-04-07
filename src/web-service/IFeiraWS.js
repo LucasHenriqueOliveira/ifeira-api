@@ -49,8 +49,7 @@ class IFeiraWS {
     routes.use(authMiddleware);
 
     routes.post("/feirante", FeiranteController.gravar);
-    //routes.put("/feirante/:id", FeiranteController.atualizar);
-    routes.get("/painel/", FeiranteController.dadosPainel);
+    routes.put("/feirante/", FeiranteController.atualizar);
   };
 
 }

@@ -70,33 +70,19 @@ class FeiranteController {
   }
 
   async atualizar(req, res) {
-    try {
-      try {
-        await client.connect();
-        const db = client.db(dbName);
 
-        const collection = db.collection("feirante");
-        const p = collection;
+    const feirante = req.body;
 
-        // set vc coloca todos os campos q quer atualizar
-
-        db.getCollection("feirantes")
-          .update({ email: "edson_yamada@gmail.com" }, { $set: { nome: "zl" } })
-          .toArray(function (err, result) {
-            if (err) {
-              console.log(err);
+    try{
+      await Banco.atualizarDocumento("feirantes", {email: feirante.email}, feirante);
+      res.status(200).send();
             }
-            res.json(result);
-          });
-      } catch (err) {
-        console.log(err.stack);
-      }
-    } catch (e) {
+    catch(e){
       console.log(e);
-      return res
-        .status(500)
-        .json({ message: "Erro ao consultar o banco de dados" });
+      // TODO: O que retornar se der erro?
+      res.status(500).send();
     }
+    
   }
 
   async listarPorBairro(req, res) {
