@@ -31,6 +31,9 @@ class Banco {
         throw new Banco.erros.ErroNaConsultaAoBanco(e);
       }
       await client.close();
+      if(!(docs instanceof Array)){
+        throw new TypeError("Docs de retorno não é uma Array");
+      }
       return docs;
 
     }
