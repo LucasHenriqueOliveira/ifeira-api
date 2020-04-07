@@ -39,6 +39,7 @@ class IFeiraWS {
 
     routes.get("/feirante/:idFeirante", FeiranteController.ler);
     routes.get("/feirantes/bairro/:idBairro", FeiranteController.listarPorBairro);
+    routes.get("/regioes/estados", RegioesController.listarEstados);
     routes.get("/regioes/municipios/:uf", RegioesController.listarMunicipiosPorEstado);
     routes.get("/regioes/bairros/:idMunicipio", RegioesController.listarBairrosPorMunicipio);
     routes.post("/sessions", SessionController.store);
