@@ -1,4 +1,5 @@
 const { MongoClient } = require("mongodb");
+const ObjectID = require('mongodb').ObjectID;
 const uri =
   "mongodb+srv://ifeira:LP979Riar3B6HTKS@cluster0-uybm2.gcp.mongodb.net/test?retryWrites=true&w=majority";
 
@@ -22,32 +23,49 @@ class SessionController {
     }
   }
 
-  //paulo henrique achou
   async ler(req, res) {
-    try {
-      try {
-        await client.connect();
-        const db = client.db(dbName);
 
-        const collection = db.collection("feirante");
-        const p = collection;
-        db.getCollection("feirantes")
-          .find({ email: "edson_yamada@gmail.com" })
-          .toArray(function (err, result) {
-            if (err) {
-              console.log(err);
-            }
-            res.json(result);
-          });
-      } catch (err) {
-        console.log(err.stack);
-      }
+
+    const { idFeirante } = req.params;
+    const objId = new ObjectID(idFeirante);
+
+    try {
+      await client.connect();
+      const db = client.db(dbName);
+
+      const collection = db.collection("feirantes");
+      collection
+        .find({ _id: objId })
+        .toArray(function (err, consulta) {
+          if (err) {
+            console.log(err);
+            return res
+              .status(500)
+              .json({ message: "Erro ao consultar o banco de dados" });
+          }
+          if (!consulta) {
+            return res
+              .status(401)
+              .json({ message: "Consulta não encontrou feirante com o id informado" });
+          }
+      
+          if (consulta.length > 1) {
+            return res
+              .status(500)
+              .json({ message: "Id retornou mais de um feirante" });
+          }
+      
+          res.json(consulta[0]);
+          
+        });
     } catch (e) {
       console.log(e);
       return res
         .status(500)
         .json({ message: "Erro ao consultar o banco de dados" });
     }
+
+
   }
 
   async atualizar(req, res) {
