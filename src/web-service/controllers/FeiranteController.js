@@ -2,21 +2,22 @@ const ObjectID = require('mongodb').ObjectID;
 const Banco = require('../infra/Banco');
 // const FeiranteFactory = require("../feirante/FeiranteFactory");
 
+const bcrypt = require("bcryptjs");
+
 class FeiranteController {
 
   async gravar(req, res) {
 
-    // let feirante;
-
-    // try {
-    //   feirante = FeiranteFactory.fromObject(req.body);
-    // } catch (e) {
-    //   res
-    //     .status(500)
-    //     .json({ message: "Erro ao gerar um feirante"+e.message});
-    // }
-
     const feirante = req.body;
+
+    debugger;
+    if(!feirante.senha){
+      // TODO: Melhor usar um model
+      res.status(403).json({message: "Senha não informada"});
+    }
+    const hashSenha = await bcrypt.hash(feirante.senha, 8);
+    feirante.senha = hashSenha;
+
     
     let docs;
     try{
