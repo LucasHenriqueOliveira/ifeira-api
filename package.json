@@ -22,6 +22,7 @@
     "docker-dev-down": "docker-compose -p ${npm_package_name}-dev -f docker-compose.yml -f docker-compose.dev.yml down",
     "docker-production-up": "docker-compose -p ${npm_package_name}-production -f docker-compose.yml -f docker-compose.production.yml up --build -d",
     "docker-production-ps": "docker-compose -p ${npm_package_name}-production -f docker-compose.yml -f docker-compose.production.yml ps",
+    "docker-production-logs": "docker-compose -p ${npm_package_name}-production -f docker-compose.yml -f docker-compose.dev.yml logs -f",
     "docker-production-down": "docker-compose -p ${npm_package_name}-production -f docker-compose.yml -f docker-compose.production.yml down",
     "start": "node src/server.js",
     "dev": "nodemon --exec node --inspect=0.0.0.0 src/server.js --ignore __tests__",
