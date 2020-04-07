@@ -72,6 +72,43 @@ class Banco {
 
     }
 
+    static async atualizarDocumento(collectionName, chave, documento){
+      
+      if(typeof collectionName !== "string" || !collectionName){
+        throw new TypeError("Collectionstring não informada corretamente");
+      }
+      if(typeof chave !== "object"){
+        throw new TypeError("Chave informado não é um objeto");
+      }
+      if(typeof documento !== "object"){
+        throw new TypeError("Documento informado não é um objeto");
+      }
+
+      let client;
+      try{
+        client = await MongoClient.connect(Banco.uri);
+      }
+      catch(e){
+        throw new Banco.erros.ErroNaConexaoDoBanco(e);
+      }
+      
+      let retorno;
+      try{
+        const collection = client.db(Banco.dbName).collection(collectionName);
+        retorno = await collection.updateOne(chave, {$set: documento});
+      }
+      catch(e){
+        throw new Banco.erros.ErroAoAtualizarBanco(e);
+      }
+
+      if(retorno.modifiedCount !== 1){
+        throw new Banco.erros.ErroQuantidadeDeAtualizadosIncorreta(1, retorno.insertedCount);
+      }
+
+      await client.close();
+
+    }
+
 }
 
 class ErroNaConexaoDoBanco extends Error{
@@ -117,11 +154,34 @@ class ErroQuantidadeDeGravadosIncorreta extends Error{
   }
 }
 
+class ErroAoAtualizarBanco extends Error{
+
+  code = "ERRO_AO_ATUALIZAR_BANCO";
+
+  constructor(erro){
+    super("Erro ao atualizar registro no banco de dados");
+    this.erro = erro;
+  }
+
+}
+
+class ErroQuantidadeDeAtualizadosIncorreta extends Error{
+  code = "ERRO_QUANTIDADE_DE_ATUALIZADOS_INCORRETA";
+
+  constructor(qtdEsperada, qtdConfiramada){
+    super("Erro de registros atualizados confirmados pelo banco está incorreta");
+    this.qtdEsperada = qtdEsperada;
+    this.qtdConfiramada = qtdConfiramada;
+  }
+}
+
 Banco.erros = {
   ErroNaConexaoDoBanco, 
   ErroNaConsultaAoBanco, 
   ErroAoGravarNoBanco, 
-  ErroQuantidadeDeGravadosIncorreta
+  ErroQuantidadeDeGravadosIncorreta,
+  ErroAoAtualizarBanco,
+  ErroQuantidadeDeAtualizadosIncorreta
 };
 
 
