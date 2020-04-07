@@ -1,12 +1,6 @@
-const { MongoClient } = require("mongodb");
 const ObjectID = require('mongodb').ObjectID;
-const uri =
-  "mongodb+srv://ifeira:LP979Riar3B6HTKS@cluster0-uybm2.gcp.mongodb.net/test?retryWrites=true&w=majority";
-
-const client = new MongoClient(uri);
-const dbName = "ifeira";
-
-const FeiranteFactory = require("../feirante/FeiranteFactory");
+const Banco = require('../infra/Banco');
+// const FeiranteFactory = require("../feirante/FeiranteFactory");
 
 class FeiranteController {
 
@@ -22,71 +16,55 @@ class FeiranteController {
     //     .json({ message: "Erro ao gerar um feirante"+e.message});
     // }
 
-    try {
-      await client.connect();
-      const db = client.db(dbName);
+    const feirante = req.body;
+    
+    let docs;
+    try{
+      docs = await Banco.encontrarDocumentos("feirantes", { email: feirante.email });
+    }
+    catch(e){
+      res.status(500).json();
+    }
+    if(docs.length){
+      res.status(403).json({message: "Já consta feirante com o email informado"});
+    }
 
-      const collection = db.collection("feirantes");
-      const retorno = await collection.insertOne(req.body);
-      console.log(retorno);
-
-      if(!retorno.insertedCount === 1){
-        throw new Error("Erro ao inserir o feirante");
-      }
-
+    try{
+      await Banco.gravarDocumento("feirantes", feirante);
       res.status(200).send();
-
-    } catch (e) {
+    }
+    catch(e){
       console.log(e);
-      return res
-        .status(500)
-        .json({ message: "Erro ao gravar no banco de dados" });
+      res.status(500).send();
     }
 
   }
 
   async ler(req, res) {
 
-
     const { idFeirante } = req.params;
     const objId = new ObjectID(idFeirante);
 
-    try {
-      await client.connect();
-      const db = client.db(dbName);
-
-      const collection = db.collection("feirantes");
-      collection
-        .find({ _id: objId })
-        .toArray(function (err, consulta) {
-          if (err) {
-            console.log(err);
-            return res
-              .status(500)
-              .json({ message: "Erro ao consultar o banco de dados" });
-          }
-          if (!consulta) {
-            return res
-              .status(401)
-              .json({ message: "Consulta não encontrou feirante com o id informado" });
-          }
-      
-          if (consulta.length > 1) {
-            return res
-              .status(500)
-              .json({ message: "Id retornou mais de um feirante" });
-          }
-      
-          res.json(consulta[0]);
-          
-        });
-    } catch (e) {
-      console.log(e);
+    let docs;
+    try{
+      docs = await Banco.encontrarDocumentos("feirantes", { _id: objId });
+    }
+    catch(e){
+      res.status(500).send();
+    }
+    if (!docs.length) {
       return res
-        .status(500)
-        .json({ message: "Erro ao consultar o banco de dados" });
+        .status(401)
+        .json({ message: "Consulta não encontrou feirante com o id informado" });
     }
 
+    if (docs.length > 1) {
+      return res
+        .status(500)
+        .json({ message: "Id retornou mais de um feirante" });
+    }
+
+    res.json(docs[0]);
 
   }
 
@@ -125,22 +103,15 @@ class FeiranteController {
     const {idBairro} = req.params;
     console.log({idBairro});
 
-    try {
-      await client.connect();
-      const db = client.db(dbName);
-
-      const collection = db.collection("feirantes");
-      const p = collection
-        .find({ bairros: idBairro })
-        .toArray(function (err, result) {
-          if (err) {
-            console.log(err);
-          }
-          res.json(result);
-        });
-    } catch (err) {
-      console.log(err.stack);
+    let docs;
+    try{
+      docs = await Banco.encontrarDocumentos("feirantes", { bairros: idBairro });
+      res.json(docs);
     }
+    catch(e){
+      res.status(500).send();
+    }
+
   }
 
   async dadosPainel(req, res) {
