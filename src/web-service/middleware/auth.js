@@ -3,7 +3,6 @@ const { promisify } = require('util');
 
 module.exports = async (req, res, next) => {
 
-    debugger;
     const authHeader = req.headers.authorization;
 
     if(!authHeader) {
