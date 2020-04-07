@@ -6,12 +6,12 @@ const client = new MongoClient(uri);
 const dbName = "ifeira";
 
 class RegioesController {
+
   async listarEstados(req, res) {
     try {
       await client.connect();
       const db = client.db(dbName);
 
-      // Use the collection "people"
       const collection = db.collection("municipios");
       const p = collection
         .aggregate([
@@ -66,14 +66,13 @@ class RegioesController {
 
     const {idMunicipio} = req.params;
 
-
-    const {idMunicipio} = req.params;
-
     try {
+      await client.connect();
       const db = client.db(dbName);
 
+      // Use the collection "people"
       const collection = db.collection("bairros");
-          { $match: { municipio: idMunicipio } },
+      const p = collection
         .aggregate([
           { $match: { municipio: idMunicipio } },
           {
@@ -104,6 +103,7 @@ class RegioesController {
       console.log(err.stack);
     }
   }
+
 }
 
 module.exports = new RegioesController();

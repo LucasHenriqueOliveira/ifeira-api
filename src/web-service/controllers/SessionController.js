@@ -9,7 +9,9 @@ const client = new MongoClient(uri);
 const dbName = "ifeira";
 
 class SessionController {
+  
   async store(req, res) {
+
     const { usuario, senha } = req.body;
 
     let loginValido;
@@ -59,6 +61,7 @@ class SessionController {
       token: token,
     });
   }
+  
 }
 
 module.exports = new SessionController();

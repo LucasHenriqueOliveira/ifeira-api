@@ -147,8 +147,6 @@ class FeiranteController {
     return res.status(200).json({ message: "a implementar" });
   }
 
-  /* Documentacao do código: Israel 06/04/2020 
-  Cmo nao tem controlador pra isso deixei aqui e depois o backender decide o que fazer */
   async listarProdutos(req, res) {
     try {
       await client.connect();
@@ -184,6 +182,7 @@ class FeiranteController {
       console.log(err.stack);
     }
   }
+  
 }
 
 module.exports = new FeiranteController();
