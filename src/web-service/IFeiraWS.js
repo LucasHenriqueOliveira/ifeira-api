@@ -3,6 +3,8 @@ const authMiddleware = require("./middleware/auth");
 const SessionController = require("./controllers/SessionController");
 const FeiranteController = require("./controllers/FeiranteController");
 const RegioesController = require("./controllers/RegioesController");
+const TipoProdutoController = require("./controllers/TipoProdutoController");
+const ProdutoController = require("./controllers/ProdutoController");
 
 require("dotenv").config({
   path: process.env.NODE_ENV === "test" ? ".env.test" : ".env",
@@ -42,8 +44,9 @@ class IFeiraWS {
     routes.get("/regioes/estados", RegioesController.listarEstados);
     routes.get("/regioes/municipios/:uf", RegioesController.listarMunicipiosPorEstado);
     routes.get("/regioes/bairros/:idMunicipio", RegioesController.listarBairrosPorMunicipio);
-    //routes.get("/feirantes/maisProximos", RegioesController.feiranteMaisProximo);
-    routes.post("/sessions", SessionController.store);
+
+    routes.get("/tiposProdutos", TipoProdutoController.listar);
+    routes.get("/produtos", ProdutoController.listar);
 
     // middleware aplicado para as rotas abaixo
     routes.use(authMiddleware);

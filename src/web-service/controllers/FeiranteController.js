@@ -17,7 +17,7 @@ class FeiranteController {
     }
     const hashSenha = await bcrypt.hash(feirante.senha, 8);
     feirante.senha = hashSenha;
-
+    
     
     let docs;
     try{
@@ -76,7 +76,7 @@ class FeiranteController {
     try{
       await Banco.atualizarDocumento("feirantes", {email: feirante.email}, feirante);
       res.status(200).send();
-            }
+    }
     catch(e){
       console.log(e);
       // TODO: O que retornar se der erro?
@@ -99,46 +99,6 @@ class FeiranteController {
       res.status(500).send();
     }
 
-  }
-
-  async dadosPainel(req, res) {
-    return res.status(200).json({ message: "a implementar" });
-  }
-
-  async listarProdutos(req, res) {
-    try {
-      await client.connect();
-      const db = client.db(dbName);
-
-      // Use the collection "people"
-      const collection = db.collection("produtos");
-      const p = collection.find({}).toArray(function (err, result) {
-        if (err) {
-          console.log(err);
-        }
-        res.json(result);
-      });
-    } catch (err) {
-      console.log(err.stack);
-    }
-  }
-
-  async listarTiposProdutos(req, res) {
-    try {
-      await client.connect();
-      const db = client.db(dbName);
-
-      // Use the collection "people"
-      const collection = db.collection("tiposProdutos");
-      const p = collection.find({}).toArray(function (err, result) {
-        if (err) {
-          console.log(err);
-        }
-        res.json(result);
-      });
-    } catch (err) {
-      console.log(err.stack);
-    }
   }
   
 }
