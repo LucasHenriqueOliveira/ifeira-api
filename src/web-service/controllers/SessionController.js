@@ -1,60 +1,60 @@
+const Banco = require('../infra/Banco');
+
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-
-const { MongoClient } = require("mongodb");
-const uri =
-  "mongodb+srv://ifeira:LP979Riar3B6HTKS@cluster0-uybm2.gcp.mongodb.net/test?retryWrites=true&w=majority";
-
-const client = new MongoClient(uri);
-const dbName = "ifeira";
 
 class SessionController {
   
   async store(req, res) {
 
-    const { usuario, senha } = req.body;
+    const { email, senha } = req.body;
 
-    let loginValido;
-    try {
-      try {
-        await client.connect();
-        const db = client.db(dbName);
-
-        const collection = db.collection("feirante");
-        const p = collection;
-        db.getCollection("feirantes")
-          .find({ email: "edson_yamada@gmail.com" })
-          .toArray(function (err, result) {
-            if (err) {
-              console.log(err);
-            }
-            res.json(result);
-          });
-      } catch (err) {
-        console.log(err.stack);
-      }
-    } catch (e) {
-      console.log(e);
+    let docs;
+    try{
+      docs = await Banco.encontrarDocumentos("feirantes", { email });
+    }
+    catch(e){
+      res.status(500).send();
+    }
+    if (!docs.length) {
       return res
-        .status(500)
-        .json({ message: "Erro ao consultar o banco de dados" });
+        .status(401)
+        .json({ message: "Credenciais inválidas" });
     }
 
-    const hashDaSenhaTeste = await bcrypt.hash("teste", 8);
-    const senhaConfere = await bcrypt.compare(senha, hashDaSenhaTeste);
-    const usuarioConfere = usuario === "teste";
-
-    if (usuarioConfere && senhaConfere) {
-      loginValido = true;
-    } else {
-      loginValido = false;
+    if (docs.length > 1) {
+      // TODO: Seria bom logar no sentry
+      // Este código repete o do FeiranteController. Talvez fosse melhor ter um Repository
+      console.error("Email retornou mais de um feirante", email);
+      return res.status(500).send();
     }
 
-    if (!loginValido) {
-      return res.status(401).json({ message: "Login inválido" });
+    const feirante = docs[0];
+
+    let senhaConfere;
+    try{
+      const hashDaSenha = await bcrypt.hash(senha, 8);
+      senhaConfere = await bcrypt.compare(senha, feirante.senha);
+    }
+    catch(e){
+      // TODO: Seria bom logar no sentry
+      // Erro no bcrypt pode acontecer. 
+      // Retornar 401 Credenciais inválidas mascarando o erro é uma boa ideia?
+      // mascarando o erro pode dificultar explorarem os erros 
+      // mas tb nos impedem de sermos notificados por um usuário. (mas seria melhor um Sentry)
+      const message = "Erro ao verificar a senha";
+      console.error(e, message);
+      return res
+        .status(401)
+        .json({ message: "Credenciais inválidas" });
     }
 
-    const dadosDoToken = { id: usuario };
+    if (!senhaConfere) {
+      return res
+        .status(401)
+        .json({ message: "Credenciais inválidas" });
+    }
+    const dadosDoToken = { email: feirante.email };
     const token = jwt.sign(dadosDoToken, process.env.APP_SECRET);
 
     return res.status(200).json({
