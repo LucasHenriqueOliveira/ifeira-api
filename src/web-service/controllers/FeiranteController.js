@@ -9,7 +9,7 @@ class FeiranteController {
   async gravar(req, res) {
 
     const feirante = await NovoFeiranteFactory.fromObject(req.body);  
-
+    
     let docs;
     try{
       docs = await Banco.encontrarDocumentos("feirantes", { email: String(feirante.email) });
@@ -42,7 +42,7 @@ class FeiranteController {
       docs = await Banco.encontrarDocumentos("feirantes", { _id: objId });
     }
     catch(e){
-      res.status(500).send();
+      return res.status(500).send();
     }
     if (!docs.length) {
       return res
@@ -56,7 +56,7 @@ class FeiranteController {
         .json({ message: "Id retornou mais de um feirante" });
     }
 
-    res.json(docs[0]);
+    return res.json(docs[0]);
 
   }
 
@@ -66,12 +66,12 @@ class FeiranteController {
 
     try{
       await Banco.atualizarDocumento("feirantes", {email: feirante.email}, feirante);
-      res.status(200).send();
+      return res.status(200).send();
     }
     catch(e){
       console.log(e);
       // TODO: O que retornar se der erro?
-      res.status(500).send();
+      return res.status(500).send();
     }
     
   }
@@ -84,10 +84,10 @@ class FeiranteController {
     let docs;
     try{
       docs = await Banco.encontrarDocumentos("feirantes", { bairros: idBairro });
-      res.json(docs);
+      return res.json(docs);
     }
     catch(e){
-      res.status(500).send();
+      return res.status(500).send();
     }
 
   }

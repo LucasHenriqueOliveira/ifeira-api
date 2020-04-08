@@ -6,11 +6,11 @@ class ProdutoController {
 
         try {
             const docs = await Banco.encontrarDocumentos("produtos");
-            res.json(docs);
+            return res.json(docs);
         }
         catch (e) {
             console.log(e);
-            res.status(500).send();
+            return res.status(500).send();
         }
 
     }
