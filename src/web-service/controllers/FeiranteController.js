@@ -1,6 +1,6 @@
 const ObjectID = require('mongodb').ObjectID;
 const Banco = require('../infra/Banco');
-// const FeiranteFactory = require("../feirante/FeiranteFactory");
+const NovoFeiranteFactory = require("../models/novoFeirante/NovoFeiranteFactory");
 
 const bcrypt = require("bcryptjs");
 
@@ -8,35 +8,26 @@ class FeiranteController {
 
   async gravar(req, res) {
 
-    const feirante = req.body;
+    const feirante = await NovoFeiranteFactory.fromObject(req.body);  
 
-    debugger;
-    if(!feirante.senha){
-      // TODO: Melhor usar um model
-      res.status(403).json({message: "Senha não informada"});
-    }
-    const hashSenha = await bcrypt.hash(feirante.senha, 8);
-    feirante.senha = hashSenha;
-    
-    
     let docs;
     try{
-      docs = await Banco.encontrarDocumentos("feirantes", { email: feirante.email });
+      docs = await Banco.encontrarDocumentos("feirantes", { email: String(feirante.email) });
     }
     catch(e){
-      res.status(500).json();
+      return res.status(500).json();
     }
     if(docs.length){
-      res.status(403).json({message: "Já consta feirante com o email informado"});
+      return res.status(403).json({message: "Já consta feirante com o email informado"});
     }
 
     try{
-      await Banco.gravarDocumento("feirantes", feirante);
-      res.status(200).send();
+      await Banco.gravarDocumento("feirantes", feirante.document );
+      return res.status(200).send();
     }
     catch(e){
       console.log(e);
-      res.status(500).send();
+      return res.status(500).send();
     }
 
   }
