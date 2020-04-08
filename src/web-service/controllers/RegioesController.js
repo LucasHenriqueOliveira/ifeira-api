@@ -6,11 +6,11 @@ class RegioesController {
 
     try{
       const docs = await Banco.encontrarDocumentos("municipios");
-      res.json(docs);
+      return res.json(docs);
     }
     catch(e){
       console.log(e);
-      res.status(500).send();
+      return res.status(500).send();
     }
 
   }
@@ -21,11 +21,11 @@ class RegioesController {
 
     try{
       const docs = await Banco.encontrarDocumentos("municipios", {uf});
-      res.json(docs);
+      return res.json(docs);
     }
     catch(e){
       console.log(e);
-      res.status(500).send();
+      return res.status(500).send();
     }
 
   }
@@ -36,11 +36,11 @@ class RegioesController {
 
     try{
       const docs = await Banco.encontrarDocumentos("bairros", {municipio: idMunicipio});
-      res.json(docs);
+      return res.json(docs);
     }
     catch(e){
       console.log(e);
-      res.status(500).send();
+      return res.status(500).send();
     }
 
   }

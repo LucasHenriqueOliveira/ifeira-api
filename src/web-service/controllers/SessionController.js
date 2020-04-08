@@ -14,7 +14,7 @@ class SessionController {
       docs = await Banco.encontrarDocumentos("feirantes", { email });
     }
     catch(e){
-      res.status(500).send();
+      return res.status(500).send();
     }
     if (!docs.length) {
       return res
