@@ -7,7 +7,7 @@ const ListaDeBairros = require('./bairro/ListaDeBairros');
 const Endereco = require('./Endereco');
 const Senha = require('./Senha');
 
-class NovoFeirante {
+class Feirante {
 
     #nomeDaBarraca;
     #email;
@@ -28,8 +28,10 @@ class NovoFeirante {
         this.#setListaDeProdutos(dados.produtos);
         this.#setTiposDeProdutos(dados.tiposDeProdutos);
         this.#setBairrosDeEntrega(dados.bairrosDeEntrega);
-        this.#setEnderecoLocalDeAtendimento(dados.localDeAtendimento);
-        this.#setSenha(dados.senha);
+        this.#setEnderecoLocalDeAtendimento(dados.enderecoLocalDeAtendimento);
+        if(dados.senha){
+            this.#setSenha(dados.senha);
+        }
     }
 
     // NomeDaBarraca =====================================>
@@ -161,7 +163,9 @@ class NovoFeirante {
     }
 
     get senha(){
-        return this.#senha.criptografada;
+        if(this.#senha){
+            return this.#senha.criptografada;
+        }
     }
 
     // Status =============================================>
@@ -194,4 +198,4 @@ class NovoFeirante {
 
 }
 
-module.exports = NovoFeirante;
+module.exports = Feirante;

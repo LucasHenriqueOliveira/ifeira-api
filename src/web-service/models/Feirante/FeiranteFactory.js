@@ -1,4 +1,4 @@
-const NovoFeirante = require('./NovoFeirante');
+const Feirante = require('./Feirante');
 const Email = require('./Email');
 const TelefoneFactory = require('./telefone/TelefoneFactory');
 const ListaTelefonesCelulares = require('./telefone/ListaTelefonesCelulares');
@@ -11,7 +11,7 @@ const ListaDeBairros = require('./bairro/ListaDeBairros');
 const Endereco = require('./Endereco');
 const Senha = require('./Senha');
 
-class NovoFeiranteFactory {
+class FeiranteFactory {
     
     static async fromObject(objeto){
         
@@ -41,11 +41,8 @@ class NovoFeiranteFactory {
             bairrosDeEntrega.add( new Bairro(nome) );
         });
 
-        const localDeAtendimento = new Endereco(objeto.endereco);
-
-        const senha = new Senha(objeto.senha);
-        await senha.criptografar();
-
+        const enderecoLocalDeAtendimento = new Endereco(objeto.enderecoLocalDeAtendimento);
+        
         const dados = {
             nomeDaBarraca,
             email,
@@ -54,15 +51,20 @@ class NovoFeiranteFactory {
             produtos,
             tiposDeProdutos,
             bairrosDeEntrega,
-            localDeAtendimento,
-            senha
+            enderecoLocalDeAtendimento
         };
-
-        const novoFeirante = new NovoFeirante(dados);
         
-        return novoFeirante;
+        if(objeto.senha){
+            const senha = new Senha(objeto.senha);
+            await senha.criptografar();
+            dados.senha = senha;
+        }
+        
+        const feirante = new Feirante(dados);
+        
+        return feirante;
     }
 
 }
 
-module.exports = NovoFeiranteFactory;
+module.exports = FeiranteFactory;

@@ -1,97 +1,61 @@
-const ObjectID = require('mongodb').ObjectID;
 const Banco = require('../infra/Banco');
-const NovoFeiranteFactory = require("../models/novoFeirante/NovoFeiranteFactory");
+const FeiranteFactory = require("../models/Feirante/FeiranteFactory");
+const FeiranteRepository = require('../models/Feirante/FeiranteRepository');
 
 const bcrypt = require("bcryptjs");
 
 class FeiranteController {
 
   async gravar(req, res) {
-
-    
-    let docs;
     try{
-      docs = await Banco.encontrarDocumentos("feirantes", { email: req.body.email });
+      const feirante = await FeiranteFactory.fromObject(req.body);
+      await FeiranteRepository.gravar(feirante);
+      return res.status(201).send();
     }
     catch(e){
-      return res.status(500).json();
-    }
-    if(docs.length){
-      return res.status(403).json({message: "Já consta feirante com o email informado"});
-    }
-
-    const feirante = await NovoFeiranteFactory.fromObject(req.body);  
-
-    try{
-      await Banco.gravarDocumento("feirantes", feirante.document );
-      return res.status(200).send();
-    }
-    catch(e){
-      console.log(e);
+      if(e instanceof FeiranteRepository.erros.ErroConstaFeiranteComEmailInformado){
+        return res.status(403).json({message: e.message});
+      }
+      if(e instanceof TypeError){
+        return res.status(400).json({message: e.message});
+      }
       return res.status(500).send();
     }
-
   }
 
   async ler(req, res) {
-
     const { idFeirante } = req.params;
-    const objId = new ObjectID(idFeirante);
-
-    let docs;
     try{
-      docs = await Banco.encontrarDocumentos("feirantes", { _id: objId });
+      const feirante = await FeiranteRepository.buscarPorId(idFeirante);
+      return res.status(200).json(feirante);
     }
     catch(e){
       return res.status(500).send();
     }
-    if (!docs.length) {
-      return res
-        .status(401)
-        .json({ message: "Consulta não encontrou feirante com o id informado" });
-    }
-
-    if (docs.length > 1) {
-      return res
-        .status(500)
-        .json({ message: "Id retornou mais de um feirante" });
-    }
-
-    return res.json(docs[0]);
-
   }
 
   async atualizar(req, res) {
-
-    const feirante = req.body;
-
     try{
-      await Banco.atualizarDocumento("feirantes", {email: feirante.email}, feirante);
+      const feirante = await FeiranteFactory.fromObject(req.body);
+      await FeiranteRepository.atualizar(feirante);
       return res.status(200).send();
     }
     catch(e){
-      console.log(e);
-      // TODO: O que retornar se der erro?
       return res.status(500).send();
     }
-    
   }
 
   async listarPorBairro(req, res) {
-
     const {idBairro} = req.params;
-    console.log({idBairro});
-
-    let docs;
     try{
-      docs = await Banco.encontrarDocumentos("feirantes", { bairros: idBairro });
-      return res.json(docs);
+      const feirantes = await FeiranteRepository.buscarPorIdBairro(idBairro);
+      return res.status(200).json(feirantes);
     }
     catch(e){
       return res.status(500).send();
     }
-
   }
+  
   
 }
 

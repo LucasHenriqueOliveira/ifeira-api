@@ -11,7 +11,7 @@ class ListaDeBairros{
         this.#bairros.push(bairro);
     }
 
-    get Bairros(){
+    get bairros(){
         return [...this.#bairros];
     }
 
