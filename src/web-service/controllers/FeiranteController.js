@@ -8,11 +8,10 @@ class FeiranteController {
 
   async gravar(req, res) {
 
-    const feirante = await NovoFeiranteFactory.fromObject(req.body);  
     
     let docs;
     try{
-      docs = await Banco.encontrarDocumentos("feirantes", { email: String(feirante.email) });
+      docs = await Banco.encontrarDocumentos("feirantes", { email: req.body.email });
     }
     catch(e){
       return res.status(500).json();
@@ -20,6 +19,8 @@ class FeiranteController {
     if(docs.length){
       return res.status(403).json({message: "Já consta feirante com o email informado"});
     }
+
+    const feirante = await NovoFeiranteFactory.fromObject(req.body);  
 
     try{
       await Banco.gravarDocumento("feirantes", feirante.document );
