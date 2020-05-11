@@ -9,11 +9,10 @@ class Senha {
         if(typeof valor !== 'string'){
             throw new TypeError("Valor não é uma instância correta");
         }
-        const tamanhoValido = /^[a-zA-Z0-9]{8}$/.test(valor);
-        const temLetras = /[a-zA-Z]/.test(valor);
-        const temNumeros = /[0-9]/.test(valor);
+        const tamanhoValido = valor.length > 8;
+        const temSomenteLetrasNumeros = /^[a-zA-Z0-9]+$/.test(valor);
 
-        const valido = tamanhoValido && temLetras && temNumeros;
+        const valido = tamanhoValido && temSomenteLetrasNumeros;
 
         if(!valido){
             throw new Senha.erros.SenhaInvalida;
