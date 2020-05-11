@@ -1,0 +1,11 @@
+**/node_modules*/
+**/Dockerfile*
+**/.dockerignore
+**/.gitignore
+**/.git
+**/README.md
+**/LICENSE
+**/.vscode
+**/__tests__/
+**/docker/
+**/docker-compose*.yml

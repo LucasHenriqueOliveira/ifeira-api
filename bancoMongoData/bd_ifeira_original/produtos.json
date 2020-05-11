@@ -1,0 +1,22 @@
+[{
+  "_id": "frutas importadas",
+  "descricao": "frutas importadas"
+},{
+  "_id": "verduras",
+  "descricao": "verduras"
+},{
+  "_id": "frutas nacionais",
+  "descricao": "frutas nacionais"
+},{
+  "_id": "flores",
+  "descricao": "flores"
+},{
+  "_id": "diversos",
+  "descricao": "diversos(alho,cebola, ovos ...)"
+},{
+  "_id": "pescada",
+  "descricao": "pescada"
+},{
+  "_id": "legumes",
+  "descricao": "legumes"
+}]

@@ -1,17 +1,10 @@
-version: '3.3'
+version: "3.3"
 
 services:
-    db:
-        restart: always
-        volumes:
-          - datadir:/data/db
     web:
         restart: always
-        environment: 
+        environment:
             PORT: 3000
-            HOST: '0.0.0.0'
+            HOST: "0.0.0.0"
         ports:
             - 3000:3000
-
-volumes:
-    datadir: {}

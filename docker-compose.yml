@@ -1,20 +1,12 @@
-version: '3.3'
+version: "3.3"
 
 services:
-    db:
-        image: mongo
-        environment:
-            MONGO_INITDB_ROOT_USERNAME: ifeira
-            MONGO_INITDB_ROOT_PASSWORD: 1f3i#a
-
     web:
         build:
             context: ./
             dockerfile: ./Dockerfile-production
             args:
                 http_proxy: ${npm_config_proxy}
-        depends_on: 
-            - db
 
 volumes:
     nodemodules: {}

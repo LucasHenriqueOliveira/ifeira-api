@@ -1,0 +1,77 @@
+[{
+  "_id": {
+    "$oid": "5e8b2e36656c6d679b6f2934"
+  },
+  "nomeDaBarraca": "zl",
+  "email": "edson_yamada@gmail.com",
+  "telefonePrincipal": "11942579989",
+  "telefonesWhatsapp": [
+    "11962345333",
+    "11993423112"
+  ],
+  "senha": "123456",
+  "status": "ativo",
+  "produtos": [
+    "diversos",
+    "frutas nacionais"
+  ],
+  "tiposDeProdutos": [
+    "orgânicos"
+  ],
+  "entrega": true,
+  "bairrosDeEntrega": [
+    "ro:rondonia:altaflorestadoeste:centroareaflor",
+    "sp:saopaulo:saopaulo:vilaformosa"
+  ],
+  "temLocalDeAtendimento": true,
+  "enderecoLocalDeAtendimento": {
+    "logradouro": "Viaduto Santa Efigenia",
+    "numero": "266",
+    "bairro": "Centro Histórico de São Paulo",
+    "municipio": "São Paulo",
+    "uf": "SP",
+    "localizacao": {
+      "coodinates": [
+        -23.5376549,
+        -46.6385252
+      ],
+      "type": "Point"
+    }
+  }
+},{
+  "_id": {
+    "$oid": "5e8dd82a274701086d18d853"
+  },
+  "nomeDaBarraca": "Barraca Brás Atualizada",
+  "email": "barraca.bras@ig.com.br",
+  "telefonePrincipal": "1138629584",
+  "telefonesWhatsapp": [
+    "11963234854",
+    "11943546555",
+    "11949543323"
+  ],
+  "produtos": [
+    "legumes",
+    "frutas nacionais",
+    "frutas importadas"
+  ],
+  "tiposDeProdutos": [
+    "orgânicos",
+    "não orgânicos"
+  ],
+  "bairrosDeEntrega": [
+    "Jardins",
+    "Vila Mariana",
+    "Moema"
+  ],
+  "temLocalDeAtendimento": true,
+  "enderecoLocalDeAtendimento": {
+    "logradouro": "Rua João Oliveira Carmo",
+    "numero": 263,
+    "bairro": "Pirituba",
+    "municipio": "São Paulo",
+    "uf": "SP"
+  },
+  "senha": "$2a$08$nCu6/amfqppqkeiyr/q6lOUvnjxU6lmFQob8YFcKOFY1tqGcePP4a",
+  "status": "ativo"
+}]

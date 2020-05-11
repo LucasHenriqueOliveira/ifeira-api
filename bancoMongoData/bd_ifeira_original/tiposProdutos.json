@@ -1,0 +1,17 @@
+[{
+  "_id": "transgênicos",
+  "descricao": "transgênicos",
+  "explicacao": "Alimentos modificados geneticamente, através de alterações no ácido desoxirribonucleico (DNA)"
+},{
+  "_id": "convencionais",
+  "explicacao": "Alimentos produzidos com o uso de adubos químicos e agrotóxicos legalizados",
+  "descricao": "convencionais(inorgânicos)"
+},{
+  "_id": "orgânicos",
+  "descricao": "orgânicos",
+  "explicacao": " Alimentos de origem animal ou vegetal que não utilizam agrotóxicos ou fertilizantes químicos, em seus processos de produção respeitando o meio ambiente e a qualidade do alimento."
+},{
+  "_id": "hidropônicos",
+  "explicacao": "Alimentos cultivados em água podendo fazer uso de agrotóxicos",
+  "descricao": "hidropônicos"
+}]

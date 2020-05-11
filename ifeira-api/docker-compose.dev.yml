@@ -1,0 +1,28 @@
+version: "3.3"
+
+services:
+    db:
+        image: mongo
+        ports:
+            - 8889:27017
+        volumes:
+            - datadir:/data/db
+    web:
+        build:
+            context: ./
+            dockerfile: ./Dockerfile-tools
+            args:
+                http_proxy: ${npm_config_proxy}
+        environment:
+            PORT: 3000
+            HOST: "0.0.0.0"
+        ports:
+            - 3000:3000
+            - 9229:9229
+        volumes:
+            - .:/src
+            - nodemodules:/src/node_modules
+        command: npm run dev
+
+volumes:
+    datadir: {}
