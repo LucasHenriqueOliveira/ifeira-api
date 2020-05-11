@@ -3,7 +3,7 @@ const Banco = require("../infra/Banco");
 class ProdutoController {
   async listar(req, res) {
     try {
-      const docs = await Banco.encontrarDocumentos("produtos");
+      const docs = await Banco.encontrarDocumentosFind("produtos");
       return res.json(docs);
     } catch (e) {
       console.log(e);
