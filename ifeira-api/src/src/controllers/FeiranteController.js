@@ -1,9 +1,8 @@
-const {FeiranteFactory, FeiranteRepository} = require("../feirante-model");
+const { FeiranteFactory, FeiranteRepository } = require("../feirante-model");
 
 const bcrypt = require("bcryptjs");
 
 class FeiranteController {
-
   async gravar(req, res) {
     try {
       const feirante = await FeiranteFactory.fromObject(req.body);
@@ -11,7 +10,8 @@ class FeiranteController {
       return res.status(201).send();
     } catch (e) {
       if (
-        e instanceof FeiranteRepository.erros.ErroConstaFeiranteComEmailInformado
+        e instanceof
+        FeiranteRepository.erros.ErroConstaFeiranteComEmailInformado
       ) {
         return res.status(403).json({ message: e.message });
       }
@@ -52,8 +52,9 @@ class FeiranteController {
     }
   }
 
-  async pesquisa(req, res){
+  async pesquisa(req, res) {
     const dados = req.body;
+
     try {
       const feirantes = await FeiranteRepository.pesquisa(dados);
       return res.status(200).json(feirantes);

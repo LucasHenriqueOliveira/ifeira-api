@@ -40,17 +40,27 @@ class IFeiraWS {
     routes.post("/sessions", SessionController.store);
 
     routes.get("/feirante/:idFeirante", FeiranteController.ler);
-    routes.get("/feirantes/bairro/:idBairro",FeiranteController.listarPorBairro);
-    routes.post("/feirantes/pesquisa",FeiranteController.pesquisa);
-    
+    routes.get(
+      "/feirantes/bairro/:idBairro",
+      FeiranteController.listarPorBairro
+    );
+    routes.post("/feirantes/pesquisa", FeiranteController.pesquisa);
+
     routes.get("/regioes/estados", RegioesController.listarEstados);
-    routes.get("/regioes/municipios/:uf", RegioesController.listarMunicipiosPorEstado);
-    routes.get("/regioes/bairros/:idMunicipio",RegioesController.listarBairrosPorMunicipio);
+    routes.get(
+      "/regioes/municipios/:uf",
+      RegioesController.listarMunicipiosPorEstado
+    );
+    routes.get(
+      "/regioes/bairros/:idMunicipio",
+      RegioesController.listarBairrosPorMunicipio
+    );
 
     routes.get("/tiposProdutos", TipoProdutoController.listar);
     routes.get("/produtos", ProdutoController.listar);
 
     routes.post("/feirante", FeiranteController.gravar);
+    routes.post("/pesquisa", FeiranteController.pesquisa);
 
     // middleware aplicado para as rotas abaixo
     routes.use(authMiddleware);
