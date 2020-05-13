@@ -1,8 +1,7 @@
 const { MongoClient } = require("mongodb");
 
 class Banco {
-  static uri =
-    "mongodb://ifeirauser:covid2020ifeira@3.88.222.220:27017/ifeira?authSource=ifeira&readPreference=primary&appname=MongoDB%20Compass&ssl=false";
+  static uri = process.env.BANCO_IFEIRA_URI;
 
   static dbName = "ifeira";
 
@@ -63,8 +62,6 @@ class Banco {
         status: 1,
       };
     }
-
-    console.log(project);
 
     let client;
     let docs;

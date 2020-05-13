@@ -7,10 +7,6 @@ const RegioesController = require("./controllers/RegioesController");
 const TipoProdutoController = require("./controllers/TipoProdutoController");
 const ProdutoController = require("./controllers/ProdutoController");
 
-require("dotenv").config({
-  path: process.env.NODE_ENV === "test" ? ".env.test" : ".env",
-});
-
 class IFeiraWS {
   #express;
 
@@ -44,19 +40,12 @@ class IFeiraWS {
     routes.post("/sessions", SessionController.store);
 
     routes.get("/feirante/:idFeirante", FeiranteController.ler);
-    routes.get(
-      "/feirantes/bairro/:idBairro",
-      FeiranteController.listarPorBairro
-    );
+    routes.get("/feirantes/bairro/:idBairro",FeiranteController.listarPorBairro);
+    routes.post("/feirantes/pesquisa",FeiranteController.pesquisa);
+    
     routes.get("/regioes/estados", RegioesController.listarEstados);
-    routes.get(
-      "/regioes/municipios/:uf",
-      RegioesController.listarMunicipiosPorEstado
-    );
-    routes.get(
-      "/regioes/bairros/:idMunicipio",
-      RegioesController.listarBairrosPorMunicipio
-    );
+    routes.get("/regioes/municipios/:uf", RegioesController.listarMunicipiosPorEstado);
+    routes.get("/regioes/bairros/:idMunicipio",RegioesController.listarBairrosPorMunicipio);
 
     routes.get("/tiposProdutos", TipoProdutoController.listar);
     routes.get("/produtos", ProdutoController.listar);
