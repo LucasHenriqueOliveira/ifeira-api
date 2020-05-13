@@ -1,0 +1,1 @@
+BANCO_IFEIRA_URI="mongodb://ifeirauser:covid2020ifeira@3.88.222.220:27017/ifeira?authSource=ifeira&readPreference=primary&appname=MongoDB%20Compass&ssl=false"

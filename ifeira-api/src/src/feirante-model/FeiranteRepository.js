@@ -36,14 +36,17 @@ class FeiranteRepository {
       throw new TypeError("Id não informado");
     }
     const objId = new ObjectID(id);
-    const docs = await Banco.encontrarDocumentos("feirantes", { _id: objId });
+    const docs = await Banco.encontrarDocumentos(
+      "feirantes",
+      { _id: objId },
+      { senha: 0 }
+    );
+
     if (docs.length > 1) {
       throw new FeiranteRepository.erros.ErroIdRetornouMaisDeUmFeirante();
     }
-    const doc = docs[0];
-    delete doc.senha;
-    const feirante = await FeiranteFactory.fromObject(doc);
-    return feirante;
+
+    return docs;
   }
 
   static async buscarPorIdBairro(idBairro) {
