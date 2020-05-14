@@ -55,7 +55,7 @@ class Banco {
         telefonePrincipal: 1,
         telefonesWhatsapp: 1,
         produtos: 1,
-        tipoDeProdutos: 1,
+        tiposDeProdutos: 1,
         bairrosDeEntrega: 1,
         temLocalDeAtendimento: 1,
         enderecoLocalDeAtendimento: 1,

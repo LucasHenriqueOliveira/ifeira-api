@@ -6,8 +6,8 @@ class RegioesController {
       const docs = await Banco.encontrarDocumentos("municipios");
       return res.json(docs);
     } catch (e) {
-      console.log(e);
-      return res.status(500).send();
+      //console.log(e);
+      return res.status(500).send({ message: e.message });
     }
   }
 
@@ -20,8 +20,8 @@ class RegioesController {
       });
       return res.json(docs);
     } catch (e) {
-      console.log(e);
-      return res.status(500).send();
+      //console.log(e);
+      return res.status(500).send({ message: e.message });
     }
   }
 
@@ -34,8 +34,8 @@ class RegioesController {
       });
       return res.json(docs);
     } catch (e) {
-      console.log(e);
-      return res.status(500).send();
+      //console.log(e);
+      return res.status(500).send({ message: e.message });
     }
   }
 }

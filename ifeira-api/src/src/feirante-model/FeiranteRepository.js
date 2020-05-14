@@ -19,13 +19,16 @@ class FeiranteRepository {
     await Banco.gravarDocumento("feirantes", feirante.document);
   }
 
-  static async atualizar(feirante) {
+  static async atualizar(id, feirante) {
     if (!(feirante instanceof Feirante)) {
       throw new TypeError("Feirante não é uma instância correta");
     }
-    await Banco.atualizarDocumento(
+
+    const objId = new ObjectID(id);
+
+    return await Banco.atualizarDocumento(
       "feirantes",
-      { email: String(feirante.email) },
+      { _id: objId },
       feirante.document
     );
   }
@@ -106,7 +109,7 @@ class FeiranteRepository {
         });
       }
 
-      console.log(parametros);
+      //console.log(parametros);
 
       const cursor = collection.aggregate([
         {
@@ -147,7 +150,7 @@ class FeiranteRepository {
       ]);
       docs = await cursor.toArray();
     } catch (e) {
-      console.log(e);
+      //console.log(e);
       throw new Banco.erros.ErroNaConsultaAoBanco(e);
     }
     await client.close();

@@ -168,12 +168,14 @@ class Banco {
 
     let retorno;
     try {
+      //console.log(chave, { $set: documento });
       const collection = client.db(Banco.dbName).collection(collectionName);
       retorno = await collection.updateOne(chave, { $set: documento });
     } catch (e) {
       throw new Banco.erros.ErroAoAtualizarBanco(e);
     }
 
+    //console.log(retorno.modifiedCount);
     if (retorno.modifiedCount !== 1) {
       throw new Banco.erros.ErroQuantidadeDeAtualizadosIncorreta(
         1,
@@ -216,7 +218,9 @@ class ErroQuantidadeDeGravadosIncorreta extends Error {
   code = "ERRO_QUANTIDADE_DE_GRAVADOS_INCORRETA";
 
   constructor(qtdEsperada, qtdConfiramada) {
-    super("Erro de registros gravados confirmados pelo banco está incorreta");
+    super(
+      "Dados não foram atualizados - Não foram encontrados itens para atualização"
+    );
     this.qtdEsperada = qtdEsperada;
     this.qtdConfiramada = qtdConfiramada;
   }

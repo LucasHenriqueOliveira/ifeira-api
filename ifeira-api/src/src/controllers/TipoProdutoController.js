@@ -10,7 +10,7 @@ class TipoProdutoController {
       );
       res.json(docs);
     } catch (e) {
-      console.log(e);
+      //console.log(e);
       return res.status(500).send({ message: e.message });
     }
   }

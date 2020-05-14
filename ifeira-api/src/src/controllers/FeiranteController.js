@@ -34,9 +34,18 @@ class FeiranteController {
 
   async atualizar(req, res) {
     try {
+      if (req.id !== req.body._id) {
+        return res
+          .status(500)
+          .send({ message: "Token Inválido para a operação desejada" });
+      }
+
       const feirante = await FeiranteFactory.fromObject(req.body);
-      await FeiranteRepository.atualizar(feirante);
-      return res.status(200).send();
+
+      await FeiranteRepository.atualizar(req.id, feirante);
+      return res
+        .status(200)
+        .send({ ok: true, message: "Operação concluída com sucesso" });
     } catch (e) {
       return res.status(500).send({ message: e.message });
     }

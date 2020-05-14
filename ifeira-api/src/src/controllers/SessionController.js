@@ -9,7 +9,11 @@ class SessionController {
 
     let docs;
     try {
-      docs = await Banco.encontrarDocumentos("feirantes", { email: email });
+      docs = await Banco.encontrarDocumentos(
+        "feirantes",
+        { email: email },
+        null
+      );
     } catch (e) {
       return res.status(500).send({ message: e.message });
     }
@@ -44,7 +48,10 @@ class SessionController {
     if (!senhaConfere) {
       return res.status(401).json({ message: "Credenciais inválidas" });
     }
-    const dadosDoToken = { email: feirante.email };
+
+    delete feirante.senha;
+
+    const dadosDoToken = { email: feirante.email, id: feirante._id };
 
     const token = jwt.sign(dadosDoToken, "covid6712635");
 
